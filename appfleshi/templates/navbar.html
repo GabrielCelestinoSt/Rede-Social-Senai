@@ -1,5 +1,76 @@
-<nav>
-    <a href="{{ url_for('feed') }}">Feed</a>
-    <a href="{{ url_for('profile', user_id=current_user.id) }}">Perfil</a>
-    <a href="{{ url_for('logout') }}">Sair</a>
+<style>
+    .navbar {
+        background-color: #333;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        padding: 0 20px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    #menu-toggle {
+        display: none;
+    }
+
+    .menu-icon {
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .menu-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background-color: #444;
+        width: 200px;
+        flex-direction: column;
+        border-bottom-right-radius: 8px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .menu-links a {
+        color: white;
+        text-decoration: none;
+        padding: 15px 20px;
+        border-bottom: 1px solid #555;
+        font-family: sans-serif;
+        display: block;
+        transition: background 0.3s;
+    }
+
+    .menu-links a:hover {
+        background-color: #555;
+        padding-left: 25px;
+    }
+
+    #menu-toggle:checked ~ .menu-links {
+        display: flex;
+    }
+
+    body {
+        padding-top: 80px;
+    }
+</style>
+
+<nav class="navbar">
+    <input type="checkbox" id="menu-toggle">
+
+    <label for="menu-toggle" class="menu-icon">
+        &#9776; </label>
+
+    <div class="menu-links">
+        <a href="{{ url_for('feed') }}">Feed Principal</a>
+        <a href="{{ url_for('profile', user_id=current_user.id) }}">Meu Perfil</a>
+        <a href="{{ url_for('logout') }}">Sair</a>
+    </div>
 </nav>
+

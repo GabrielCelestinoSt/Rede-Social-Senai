@@ -1,15 +1,96 @@
-{% extends "homepage.html" %}
-
-{% block title %}
-    Fléshi - Feed
-{% endblock %}
-
 {% block body %}
     {% include "navbar.html" %}
-    <h1>Feed Principal</h1>
-    {% for photo in photos %}
-        <a href="{{ url_for('profile', user_id=photo.user_id) }}">
-            <img src="{{ url_for('static', filename='posts_photos/'~photo.file_name) }}" alt="~photo.file_name">
-        </a>
-    {% endfor %}
+
+    <style>
+        .card-photo {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            overflow: hidden;
+        }
+
+        .card-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(50, 50, 50, 0.8);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .card-photo:hover .photo-overlay {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+
+        .subtitle-text {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .feed-container {
+            display: flex;
+            width: 100vw;
+            flex-wrap: wrap;
+            margin-left: 60px;
+            margin-right: 60px;
+            justify-content: flex-start;
+        }
+
+        .feed-header{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+    </style>
+
+    <div class="feed-header">
+
+        <h1 >Feed Principal</h1>
+
+    </div>
+
+    <div class="feed-container">
+        {% for photo in photos %}
+            <div class="card-photo">
+                <a href="{{ url_for('profile', user_id=photo.user_id) }}">
+
+                    <img src="{{ url_for('static', filename='posts_photos/'~photo.file_name) }}" alt="{{ photo.file_name }}">
+
+
+                        <div class="photo-overlay">
+                            {% if photo.subtitle %}
+                                <p class="subtitle-text">
+                                    <strong>{{ photo.user.username }}:</strong><br>
+                                    {{ photo.subtitle }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
